@@ -1,6 +1,6 @@
 # DevOps Project
 
-[[./code.png]]
+![formula for success](./code.png)
 
 ---
 
