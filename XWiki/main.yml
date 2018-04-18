@@ -1,23 +1,44 @@
-
-sts: all
+---
+- hosts: xwiki
   become: yes
 
   vars_files:
-    - vars/postgres.yml
+    - vars/postgresql.yml
+
   pre_tasks:
     - name: Update apt's cache
       apt: update_cache=yes cache_valid_time=3600
 
   tasks:
-    - name: Ensure PostgreSQL and important dependencies are present
-      apt: name={{item}} state=present
-      with_items:
-      - postgresql
-      - python-psycopg2
+    - name: Get XWiki repository gpg key
+      apt_key:
+        url: "https://maven.xwiki.org/public.gpg"
+        state: present   
+    
+    - name: Get XWiki source
+      become: yes
+      get_url:
+        url: "https://maven.xwiki.org/stable/xwiki-stable.list" 
+        dest: /etc/apt/sources.list.d/
+
+    - name: Update aptitude
+      apt: update_cache=yes cache_valid_time=3600
+
+    - name: Install XWiki
+      apt: name=xwiki-tomcat8-pgsql
 
     - name: Create a new PostgreSQL superuser
-      postgresql_user: name={{postgres_user}} password={{pass}}
+      postgresql_user: name={{user}} password={{pass}}
         role_attr_flags=SUPERUSER
         state=present
       become: yes
       become_user: postgres
+
+    - name: Creates directory
+      file: path=/var/lib/tomcat8/bin/ state=directory
+
+    - name: Set tomcat8 environment for Java
+      shell: export JAVA_OPTS="${JAVA_OPTS} -Djava.awt.headless=true" CATALINA_OPTS="-Xms4096M -Xmx4096M -XX:PermSize=512M -XX:MaxPermSize=512M"
+
+    - name: Restart tomcat8
+      service: name=tomcat8 state=restarted
