@@ -1,6 +1,6 @@
 # DevOps Project
 
-$$ Ansible Playbooks + Shell Scripts + A lot of mistakes = My Project $$
+[[./code.png]]
 
 ---
 
