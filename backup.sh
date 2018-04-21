@@ -1,3 +1,5 @@
+!#/bin/bash
+
 lxc snapshot xwiki1 xwiki1-snap$(date +%Y%m%d)
 sudo zfs send lxd/main/containers/xwiki1@xwiki1-snap$(date +%Y%m%d)
 
