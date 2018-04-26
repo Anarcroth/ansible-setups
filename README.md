@@ -4,13 +4,15 @@
 
 ---
 
-These are the steps and tasks I did over the course of the DevOps course, explained in small and great detail.
+These are the steps and tasks I did over the course of the DevOps course.
 
 ## Overview
 
+The main tasks that were done, were continual repetitions of all of the practices and shared in class tutorials!
+
 The project consists of a main server, running 3 `LXD` containers, over `ZFS` with RAIDZ 2. Two of the containers are `XWiki` servers, the third one is a monitoring service with `Icinga2`. The `XWiki`s are running on top of a `tomcat8` serverlet with a `PostgreSQL`.
 
-There is a *daily* `cron` job that takes a **snapshot** of the containers with the current date as an *id* of each snapshot. The snapshots are then *backed-up* with the `ZFS` file-system. The backed-up `.raw` files are then transoprted to my personal computer (this step is not automated since my computer is not on 24/7).
+There is a *daily* `cron` job that takes a **snapshot** of the containers with the current date as an *id* of each snapshot. The snapshots are then *backed-up* with the `ZFS` file-system. The backed-up `.raw` files are then transoprted to my personal computer (this step is not automated since my computer is not up 24/7).
 
 ## Ansible Playbook(s)
 
@@ -25,3 +27,4 @@ These are just things that I have additionally setup, in order to create a more 
 - My account on the server has root privileges, whith the root password is disabled.
 - `iptables` have been configured so that only a small set of `ip` addresses can access the server via `ssh`.
 - Connection to the server is only done through `ssh`.
+- Non-local backups of the file system and containers.
