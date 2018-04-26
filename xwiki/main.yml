@@ -25,7 +25,8 @@
       apt: update_cache=yes cache_valid_time=3600
 
     - name: Install XWiki
-      apt: name=xwiki-tomcat8-pgsql
+      apt: name=xwiki-tomcat8-pgsql state=present
+      become: yes
 
     - name: Create a new PostgreSQL superuser
       postgresql_user: name={{user}} password={{pass}}
