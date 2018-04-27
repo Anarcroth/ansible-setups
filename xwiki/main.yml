@@ -2,9 +2,6 @@
 - hosts: xwiki
   become: yes
 
-  vars_files:
-    - vars/postgresql.yml
-
   pre_tasks:
     - name: Update apt's cache
       apt: update_cache=yes cache_valid_time=3600
@@ -24,22 +21,21 @@
     - name: Update aptitude
       apt: update_cache=yes cache_valid_time=3600
 
-    - name: Install XWiki
-      apt: name=xwiki-tomcat8-pgsql state=present
+    - name: Update cache and install XWiki
+      apt: update_cache=yes  name=xwiki-tomcat8-pgsql state=present
       become: yes
 
-    - name: Create a new PostgreSQL superuser
-      postgresql_user: name={{user}} password={{pass}}
-        role_attr_flags=SUPERUSER
-        state=present
-      become: yes
-      become_user: postgres
+    - name: Set JAVA_HOME variable 
+      lineinfile:
+        path: /etc/default/tomcat8
+        regexp: '#JAVA_HOME='
+        line: 'JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64'
 
-    - name: Creates directory
-      file: path=/var/lib/tomcat8/bin/ state=directory
-
-    - name: Set tomcat8 environment for Java
-      shell: export JAVA_OPTS="${JAVA_OPTS} -Djava.awt.headless=true" CATALINA_OPTS="-Xms4096M -Xmx4096M -XX:PermSize=512M -XX:MaxPermSize=512M"
+    - name: Set Java RAM usage
+      lineinfile:
+        path: /etc/default/tomcat8
+        regexp: 'JAVA_OPTS='
+        line: 'JAVA_OPTS="-Djava.awt.headless=true -Xmx1024m -XX:+UseConcMarkSweepGC"'
 
     - name: Restart tomcat8
       service: name=tomcat8 state=restarted
