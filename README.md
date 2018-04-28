@@ -1,6 +1,6 @@
 # DevOps Project
 
-![formula for success](./code.png)
+![formula for success](./pics/code.png)
 
 ---
 
@@ -20,11 +20,13 @@ The plaubook I wrote try to be as *indempotent* as possible. Here the [Ansible D
 
 The `XWiki`'s are installed via a compact distribution, that contains all of the `tomcat8` and `pgsql` dependecies.
 
-*Step1* - was to create a basic *one-time* shell script (`install_xwiki.sh`) that would do the job on a basic setup. \
+*Step0* - was to go over the [XWiki Installation](http://www.xwiki.org/xwiki/bin/view/Documentation/AdminGuide/Installation/) page and manually install one such `XWiki` on one server. Using the `.deb` package, this was relatively easy.
 
-*Step2* - was to go by intuition and re-write the script line-by-line into an `ansible` playbook. In reality this turned out better than expected. It worked. \
+*Step1* - was to create a basic *one-time* shell script (`install_xwiki.sh`) that would do the job on a basic setup.
 
-*Step3* - was to fix all of the mistakes, warnings, and unnecessary code from the playbook. This made it more in the spirit of `ansible` and also I got the chance to spend some time with their documentation. \
+*Step2* - was to go by intuition and re-write the script line-by-line into an `ansible` playbook. In reality this turned out better than expected. It worked. 
+
+*Step3* - was to fix all of the mistakes, warnings, and unnecessary code from the playbook. This made it more in the spirit of `ansible` and also I got the chance to spend some time with their documentation. 
 
 ## Bonus(es)
 
@@ -55,3 +57,13 @@ xxxx.xxxx.xxxx.xxxx ansible_user=username_of_container ansible_connection=ssh
 ```
 
 I would guess that ansible didn't recognize/connect to the correct username over `ssh`, which caused it to spit out that error. Other possible fixes include adding the command `-c paramiko` to the `playbook` when run, *downgrading* ansible, configuring `ssh` in the `[ssh_connection]` block of the hosts file, and many more. The full issue thread can be seen [here](https://github.com/ansible/ansible/issues/15321).
+
+## End Result
+
+Here is how the 2 `XWiki` server look like after a proper installation through ansible passes.
+
+![xwiki1](./pics/scr1xwiki.png) ![xwiki2](./pics/scr2xwiki.png)
+
+And here is the clean output from the `playbook`.
+
+![plbok](./pics/playbook.png)
