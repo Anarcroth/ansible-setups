@@ -1,0 +1,6 @@
+[xwiki]
+195.201.14.215
+195.201.14.216 ansible_user=xwiki2user ansible_connection=ssh
+
+[monitor]
+195.201.14.217
