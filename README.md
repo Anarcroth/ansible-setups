@@ -60,7 +60,7 @@ I would guess that ansible didn't recognize/connect to the correct username over
 
 ## End Result
 
-Here is how the 2 `XWiki` server look like after a proper installation through ansible passes.
+Here is how the 2 `XWiki` servers look like after a proper installation through ansible passes.
 
 ![xwiki1](./pics/scr1xwiki.png) ![xwiki2](./pics/scr2xwiki.png)
 
