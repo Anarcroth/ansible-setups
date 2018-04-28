@@ -20,9 +20,11 @@ The plaubook I wrote try to be as *indempotent* as possible. Here the [Ansible D
 
 The `XWiki`'s are installed via a compact distribution, that contains all of the `tomcat8` and `pgsql` dependecies.
 
-*Step1* was to create a basic *one-time* shell script (`install_xwiki.sh`) that would do the job on a basic setup.
-*Step2* was to go by intuition and re-write the script line-by-line into an `ansible` playbook. In reality this turned out better than expected. It worked.
-*Step3* was to fix all of the mistakes, warnings, and unnecessary code from the playbook. This made it more in the spirit of `ansible` and also I got the chance to spend some time with their documentation.
+*Step1* - was to create a basic *one-time* shell script (`install_xwiki.sh`) that would do the job on a basic setup. \
+
+*Step2* - was to go by intuition and re-write the script line-by-line into an `ansible` playbook. In reality this turned out better than expected. It worked. \
+
+*Step3* - was to fix all of the mistakes, warnings, and unnecessary code from the playbook. This made it more in the spirit of `ansible` and also I got the chance to spend some time with their documentation. \
 
 ## Bonus(es)
 
