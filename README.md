@@ -33,4 +33,25 @@ These are just things that I have additionally setup, in order to create a more 
 - My account on the server has root privileges, whith the root password is disabled. (duh)
 - `iptables` have been configured so that only a small set of `ip` addresses can access the server via `ssh`.
 - Connection to the server is only done through `ssh`.
-- I have non-local backups of the containers.
+- I have non-local (not on the server) backups of the containers.
+
+## Fixes
+
+One of the issues that continually persisted along my development was that darn `ansible` error, that couldn't reach one of my containers through `ssh`, regardless of the fact that I was able to `ssh` over to the container itself.
+
+``` bash
+195.201.14.216 | UNREACHABLE! => {
+    "changed": false, 
+    "msg": "SSH Error: data could not be sent to remote host \"195.201.14.216\". Make sure this host can be reached over ssh", 
+    "unreachable": true
+}
+```
+
+After looking onver some issues on **GitHub**, I saw that others had something similar to me. The fix is this - in the `ansible-hosts` file, next to the address of the problematic container, I had to write
+
+``` bash
+[server]
+xxxx.xxxx.xxxx.xxxx ansible_user=username_of_container ansible_connection=ssh
+```
+
+I would guess that ansible didn't recognize/connect to the correct username over `ssh`, which caused it to spit out that error. Other possible fixes include adding the command `-c paramiko` to the `playbook` when run, *downgrading* ansible, configuring `ssh` in the `[ssh_connection]` block of the hosts file, and many more. The full issue thread can be seen [here](https://github.com/ansible/ansible/issues/15321).
